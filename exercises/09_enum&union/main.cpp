@@ -1,3 +1,11 @@
+/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-26 01:04:58
+ * @FilePath: \learning-cxx\exercises\09_enum&union\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "../exercise.h"
 
 // READ: 枚举类型 <https://zh.cppreference.com/w/cpp/language/enum>
@@ -37,6 +45,7 @@ ColorEnum convert_by_pun(Color c) {
 
     TypePun pun;
     // TODO: 补全类型双关转换
+    pun.c = c;
 
     return pun.e;
 }

@@ -1,3 +1,11 @@
+/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-26 18:45:07
+ * @FilePath: \learning-cxx\exercises\17_class_derive\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "../exercise.h"
 
 // READ: 派生类 <https://zh.cppreference.com/w/cpp/language/derived_class>
@@ -50,9 +58,9 @@ int main(int argc, char **argv) {
     B b = B(3);
 
     // TODO: 补全三个类型的大小
-    static_assert(sizeof(X) == ?, "There is an int in X");
-    static_assert(sizeof(A) == ?, "There is an int in A");
-    static_assert(sizeof(B) == ?, "B is an A with an X");
+    static_assert(sizeof(X) == sizeof(int), "There is an int in X");
+    static_assert(sizeof(A) == sizeof(int), "There is an int in A");
+    static_assert(sizeof(B) == sizeof(X) + sizeof(A), "B is an A with an X");
 
     i = 0;
     std::cout << std::endl

@@ -1,3 +1,11 @@
+/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-26 13:09:52
+ * @FilePath: \learning-cxx\exercises\13_class\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "../exercise.h"
 
 // C++ 中，`class` 和 `struct` 之间的**唯一区别**是
@@ -14,11 +22,15 @@ class Fibonacci {
 
 public:
     // TODO: 实现构造器
-    // Fibonacci()
+    Fibonacci() {
+        cache[0] = 0;
+        cache[1] = 1;
+        cached = 2;
+    }
 
     // TODO: 实现正确的缓存优化斐波那契计算
     size_t get(int i) {
-        for (; false; ++cached) {
+        for (; cached <= i; ++cached) {
             cache[cached] = cache[cached - 1] + cache[cached - 2];
         }
         return cache[i];

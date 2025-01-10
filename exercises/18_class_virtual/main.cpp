@@ -1,3 +1,11 @@
+/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-26 20:00:33
+ * @FilePath: \learning-cxx\exercises\18_class_virtual\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "../exercise.h"
 
 // READ: 虚函数 <https://zh.cppreference.com/w/cpp/language/virtual>
@@ -42,38 +50,38 @@ int main(int argc, char **argv) {
     C c;
     D d;
 
-    ASSERT(a.virtual_name() == '?', MSG);
-    ASSERT(b.virtual_name() == '?', MSG);
-    ASSERT(c.virtual_name() == '?', MSG);
-    ASSERT(d.virtual_name() == '?', MSG);
-    ASSERT(a.direct_name() == '?', MSG);
-    ASSERT(b.direct_name() == '?', MSG);
-    ASSERT(c.direct_name() == '?', MSG);
-    ASSERT(d.direct_name() == '?', MSG);
+    ASSERT(a.virtual_name() == 'A', MSG);
+    ASSERT(b.virtual_name() == 'B', MSG);
+    ASSERT(c.virtual_name() == 'C', MSG);
+    ASSERT(d.virtual_name() == 'C', MSG);
+    ASSERT(a.direct_name() == 'A', MSG);
+    ASSERT(b.direct_name() == 'B', MSG);
+    ASSERT(c.direct_name() == 'C', MSG);
+    ASSERT(d.direct_name() == 'D', MSG);
 
     A &rab = b;
     B &rbc = c;
     C &rcd = d;
 
-    ASSERT(rab.virtual_name() == '?', MSG);
-    ASSERT(rbc.virtual_name() == '?', MSG);
-    ASSERT(rcd.virtual_name() == '?', MSG);
-    ASSERT(rab.direct_name() == '?', MSG);
-    ASSERT(rbc.direct_name() == '?', MSG);
-    ASSERT(rcd.direct_name() == '?', MSG);
+    ASSERT(rab.virtual_name() == 'B', MSG);
+    ASSERT(rbc.virtual_name() == 'C', MSG);
+    ASSERT(rcd.virtual_name() == 'C', MSG);
+    ASSERT(rab.direct_name() == 'A', MSG);
+    ASSERT(rbc.direct_name() == 'B', MSG);
+    ASSERT(rcd.direct_name() == 'C', MSG);
 
     A &rac = c;
     B &rbd = d;
 
-    ASSERT(rac.virtual_name() == '?', MSG);
-    ASSERT(rbd.virtual_name() == '?', MSG);
-    ASSERT(rac.direct_name() == '?', MSG);
-    ASSERT(rbd.direct_name() == '?', MSG);
+    ASSERT(rac.virtual_name() == 'C', MSG);
+    ASSERT(rbd.virtual_name() == 'C', MSG);
+    ASSERT(rac.direct_name() == 'A', MSG);
+    ASSERT(rbd.direct_name() == 'B', MSG);
 
     A &rad = d;
 
-    ASSERT(rad.virtual_name() == '?', MSG);
-    ASSERT(rad.direct_name() == '?', MSG);
+    ASSERT(rad.virtual_name() == 'C', MSG);
+    ASSERT(rad.direct_name() == 'A', MSG);
 
     return 0;
 }

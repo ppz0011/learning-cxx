@@ -1,5 +1,12 @@
-﻿#include "../exercise.h"
-#include <cstring>
+﻿/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-29 07:28:54
+ * @FilePath: \learning-cxx\exercises\30_std_unique_ptr\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+#include "../exercise.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -23,15 +30,21 @@ public:
 
 using Unique = std::unique_ptr<Resource>;
 Unique reset(Unique ptr) {
-    if (ptr) ptr->record('r');
+    if (ptr) {
+        ptr->record('r');
+    }
     return std::make_unique<Resource>();
 }
 Unique drop(Unique ptr) {
-    if (ptr) ptr->record('d');
+    if (ptr) {
+        ptr->record('d');
+    }
     return nullptr;
 }
 Unique forward(Unique ptr) {
-    if (ptr) ptr->record('f');
+    if (ptr) {
+        ptr->record('f');
+    }
     return ptr;
 }
 
@@ -52,9 +65,8 @@ int main(int argc, char **argv) {
     std::vector<const char *> answers[]{
         {"fd"},
         // TODO: 分析 problems[1] 中资源的生命周期，将记录填入 `std::vector`
-        // NOTICE: 此题结果依赖对象析构逻辑，平台相关，提交时以 CI 实际运行平台为准
-        {"", "", "", "", "", "", "", ""},
-        {"", "", "", "", "", "", "", ""},
+        {"ffr", "d"},
+        {"r", "d", "d"},
     };
 
     // ---- 不要修改以下代码 ----

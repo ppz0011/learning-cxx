@@ -1,10 +1,28 @@
-﻿#include "../exercise.h"
+﻿/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-25 23:17:47
+ * @FilePath: \learning-cxx\exercises\08_pointer\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+#include "../exercise.h"
 
 // READ: 数组向指针退化 <https://zh.cppreference.com/w/cpp/language/array#%E6%95%B0%E7%BB%84%E5%88%B0%E6%8C%87%E9%92%88%E7%9A%84%E9%80%80%E5%8C%96>
 bool is_fibonacci(int *ptr, int len, int stride) {
     ASSERT(len >= 3, "`len` should be at least 3");
     // TODO: 编写代码判断从 ptr 开始，每 stride 个元素取 1 个元素，组成长度为 n 的数列是否满足
     // arr[i + 2] = arr[i] + arr[i + 1]
+
+    int count = 0;
+    for (int i = 0; i + 2 < len; i ++) {
+        if (ptr[(i + 2) * stride] != ptr[i * stride] + ptr[(i + 1) * stride]) {
+            //std::cout << "arr[" << i + 2 << "] != arr[" << i << "] + arr[" << i + 1 << "]" << std::endl;
+            return false;
+        }
+        count++;
+    }
+
     return true;
 }
 

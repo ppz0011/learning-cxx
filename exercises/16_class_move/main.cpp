@@ -1,3 +1,11 @@
+/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-26 18:37:32
+ * @FilePath: \learning-cxx\exercises\16_class_move\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "../exercise.h"
 
 // READ: 左值右值（概念）<https://learn.microsoft.com/zh-cn/cpp/c-language/l-value-and-r-value-expressions?view=msvc-170>
@@ -15,21 +23,34 @@ class DynFibonacci {
 
 public:
     // TODO: 实现动态设置容量的构造器
-    DynFibonacci(int capacity): cache(new ?), cached(?) {}
+    DynFibonacci(int capacity): cache(new size_t[capacity > 2 ? capacity : 2]{0, 1}), cached(2) {}
 
     // TODO: 实现移动构造器
-    DynFibonacci(DynFibonacci &&) noexcept = delete;
+    DynFibonacci(DynFibonacci&& other) noexcept  {;
+        *this = std::move(other);
+    };
 
     // TODO: 实现移动赋值
     // NOTICE: ⚠ 注意移动到自身问题 ⚠
-    DynFibonacci &operator=(DynFibonacci &&) noexcept = delete;
+    DynFibonacci &operator=(DynFibonacci&& other) noexcept {
+        if(this != &other) {
+            delete[] cache;
+            cache = std::move(other.cache);
+            cached = std::move(other.cached);
+            other.cache = nullptr;
+            other.cached = 0;
+        }
+        return *this;
+    };
 
     // TODO: 实现析构器，释放缓存空间
-    ~DynFibonacci();
+    ~DynFibonacci() {
+        delete[] cache;
+    };
 
     // TODO: 实现正确的缓存优化斐波那契计算
     size_t operator[](int i) {
-        for (; false; ++cached) {
+        for (; cached <= i; ++cached) {
             cache[cached] = cache[cached - 1] + cache[cached - 2];
         }
         return cache[i];
@@ -37,7 +58,7 @@ public:
 
     // NOTICE: 不要修改这个方法
     size_t operator[](int i) const {
-        ASSERT(i <= cached, "i out of range");
+        ASSERT(i < cached, "i out of range");
         return cache[i];
     }
 

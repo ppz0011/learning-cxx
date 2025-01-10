@@ -2,14 +2,15 @@
 
 // READ: 类模板 <https://zh.cppreference.com/w/cpp/language/class_template>
 
-template<class T>
+template<typename T>
 struct Tensor4D {
     unsigned int shape[4];
     T *data;
 
     Tensor4D(unsigned int const shape_[4], T const *data_) {
-        unsigned int size = 1;
+        std::copy_n(shape_, 4, shape);
         // TODO: 填入正确的 shape 并计算 size
+        unsigned int size = shape[0] * shape[1] * shape[2] * shape[3];
         data = new T[size];
         std::memcpy(data, data_, size * sizeof(T));
     }
@@ -28,6 +29,43 @@ struct Tensor4D {
     // 则 `this` 与 `others` 相加时，3 个形状为 `[1, 2, 1, 4]` 的子张量各自与 `others` 对应项相加。
     Tensor4D &operator+=(Tensor4D const &others) {
         // TODO: 实现单向广播的加法
+        for (auto i = 0u; i < 4; ++i) {
+            if (shape[i] != others.shape[i] && others.shape[i] != 1) {
+                std::cout << "Shape mismatch." << std::endl;
+                throw std::runtime_error("Shape mismatch.");
+            }
+        }
+
+        for(auto i0 = 0u; i0 < shape[0]; ++i0) {
+            for (auto i1 = 0u; i1 < shape[1]; ++i1) {
+                for (auto i2 = 0u; i2 < shape[2]; ++i2) {
+                    for (auto i3 = 0u; i3 < shape[3]; ++i3) {
+
+                        unsigned int this_index = 0, other_index = 0;
+                        unsigned int indexs[4] = {i0, i1, i2, i3};
+
+                        for (int i = 0; i < 4; ++i) {
+                            this_index *= shape[i];
+                            this_index += indexs[i];
+                            if (others.shape[i] != 1) {
+                                other_index *= others.shape[i];
+                                other_index += indexs[i];
+                            }
+                        } 
+
+                        if(this_index >= shape[0]*shape[1]*shape[2]*shape[3] || other_index >= others.shape[0]*others.shape[1]*others.shape[2]*others.shape[3]) {
+                            std::cout << "Index out of range." << std::endl;
+                            throw std::runtime_error("Index out of range.");
+                        }
+
+                        data[this_index] += others.data[other_index];
+                        //data[((i0*shape[1]+i1)*shape[2]+i2)*shape[3]+i3] += others.data[std::min(i0, others.shape[0] - 1)][std::min(i1, others.shape[1] - 1)][std::min(i2, others.shape[2] - 1)][std::min(i3, others.shape[3] - 1)];
+                    }
+                }
+            }
+        }
+
+
         return *this;
     }
 };
@@ -49,6 +87,7 @@ int main(int argc, char **argv) {
         auto t0 = Tensor4D(shape, data);
         auto t1 = Tensor4D(shape, data);
         t0 += t1;
+        //std::cout << "Tensor doubled by plus its self." << std::endl;
         for (auto i = 0u; i < sizeof(data) / sizeof(*data); ++i) {
             ASSERT(t0.data[i] == data[i] * 2, "Tensor doubled by plus its self.");
         }
@@ -80,6 +119,7 @@ int main(int argc, char **argv) {
         auto t0 = Tensor4D(s0, d0);
         auto t1 = Tensor4D(s1, d1);
         t0 += t1;
+        //std::cout << "Every element of t0 should be 7 after adding t1 to it." << std::endl;
         for (auto i = 0u; i < sizeof(d0) / sizeof(*d0); ++i) {
             ASSERT(t0.data[i] == 7.f, "Every element of t0 should be 7 after adding t1 to it.");
         }
@@ -102,6 +142,7 @@ int main(int argc, char **argv) {
         auto t0 = Tensor4D(s0, d0);
         auto t1 = Tensor4D(s1, d1);
         t0 += t1;
+        //std::cout << "Every element of t0 should be incremented by 1 after adding t1 to it." << std::endl;
         for (auto i = 0u; i < sizeof(d0) / sizeof(*d0); ++i) {
             ASSERT(t0.data[i] == d0[i] + 1, "Every element of t0 should be incremented by 1 after adding t1 to it.");
         }

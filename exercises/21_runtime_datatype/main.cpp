@@ -1,4 +1,12 @@
-﻿#include "../exercise.h"
+﻿/*
+ * @Author: ppz 2398672726@qq.com
+ * @Date: 2024-12-15 15:17:29
+ * @LastEditors: ppz 2398672726@qq.com
+ * @LastEditTime: 2024-12-27 19:02:46
+ * @FilePath: \learning-cxx\exercises\21_runtime_datatype\main.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+#include "../exercise.h"
 #include <cmath>
 
 enum class DataType {
@@ -17,14 +25,22 @@ struct TaggedUnion {
     };
 };
 
+
 // TODO: 将这个函数模板化用于 sigmoid_dyn
-float sigmoid(float x) {
+template <typename T>
+T sigmoid(T x) {
     return 1 / (1 + std::exp(-x));
 }
 
 TaggedUnion sigmoid_dyn(TaggedUnion x) {
     TaggedUnion ans{x.type};
     // TODO: 根据 type 调用 sigmoid
+    if(ans.type == DataType::Float) {
+        ans.f = sigmoid(x.f);
+    }
+    else {
+        ans.d = sigmoid(x.d);
+    }
     return ans;
 }
 
